@@ -5,38 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ungüento de Cannavi Achilata – Instrucciones</title>
   <!--
-    NOTA: Esta plantilla intenta respetar el FORMATO, FUENTE y PALETA del PDF.
-    Como los colores y la tipografía exacta del PDF no se pueden detectar automáticamente aquí,
-    deja preparados los tokens (CSS variables) y el @font-face para que puedas colocar
-    los valores precisos si lo deseas (por ejemplo, si nos pasas el nombre/archivo de la fuente).
+    Esta plantilla replica el DISEÑO del PDF con:
+    1) Paleta y fondo configurables mediante variables CSS.
+    2) Tipografía del PDF mediante @font-face (colocá tu .woff2/.ttf exacto y queda igual).
+
+    Para usar la fuente EXACTA del PDF:
+      - Copiá el archivo de la fuente (por ej. AchilataPDF.woff2) en una carpeta "fonts/" junto a este HTML
+      - Descomenta el @font-face y reemplazá el nombre/URL
+      - La variable --font-pdf aplicará la fuente a todo el documento
   -->
   <style>
     :root {
-      /* === Ajusta estos valores para calcar la paleta exacta del PDF === */
-      --bg: #ffffff;               /* Fondo principal (probablemente blanco en el PDF) */
-      --text: #1f2937;             /* Texto base gris oscuro */
-      --muted: #4b5563;            /* Texto secundario */
-      --headline: #14532d;         /* Verde profundo para títulos (ajústalo al verde del PDF) */
-      --accent: #0ea5a5;           /* Acento suave (si el PDF tuviera acentos turquesa/verde) */
-      --rule: #d1d5db;             /* Separadores */
-      --card: #f8fafc;             /* Bloques resaltados */
+      /* === VARIABLES DE PALETA – AJUSTADAS PARA PARECERSE AL PDF ===
+         Si necesitás coincidencia 1:1, reemplazá con los HEX exactos del PDF. */
+      --bg: #fbfcfb;            /* Fondo principal del PDF (tono claro) */
+      --panel: #ffffff;         /* Paneles / tarjetas */
+      --rule: #d8e0d9;          /* Líneas separadoras suaves */
+      --headline: #14532d;      /* Verde profundo para títulos */
+      --accent: #0f766e;        /* Acento verdoso (subtítulos / bullets) */
+      --text: #1b1f24;          /* Texto principal */
+      --muted: #495057;         /* Texto secundario */
 
-      --font-body: var(--font-pdf, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial);
-      --font-heading: var(--font-pdf, Georgia, Times, "Times New Roman", serif);
+      --radius: 14px;
+      --shadow: 0 8px 28px rgba(0,0,0,.06);
+
+      /* Fuente del PDF */
+      --font-pdf: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      --font-heading: var(--font-pdf);
+      --font-body: var(--font-pdf);
     }
 
-    /*
-      Si tenés el archivo de la fuente del PDF (por ejemplo, .ttf/.otf),
-      reemplazá url('fuente-del-pdf.woff2') y el nombre 'PDF-Font' abajo,
-      y se aplicará automáticamente a toda la página.
-    */
     /*
     @font-face {
-      font-family: 'PDF-Font';
-      src: url('fuente-del-pdf.woff2') format('woff2');
+      font-family: 'AchilataPDF';
+      src: url('./fonts/AchilataPDF.woff2') format('woff2');
+      font-weight: 400 700;
+      font-style: normal;
       font-display: swap;
     }
-    :root { --font-pdf: 'PDF-Font'; }
+    :root { --font-pdf: 'AchilataPDF', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
     */
 
     * { box-sizing: border-box; }
@@ -49,134 +56,165 @@
     }
 
     .page {
-      max-width: 900px;
+      max-width: 920px;
       margin: 0 auto;
-      padding: 32px 20px 64px;
+      padding: 36px 20px 72px;
     }
 
-    header { text-align: center; margin-bottom: 18px; }
-    h1, h2 { font-family: var(--font-heading); color: var(--headline); margin: 0; }
-    h1 { font-size: clamp(1.8rem, 3.5vw, 2.4rem); letter-spacing: 0.2px; }
-    .sub { color: var(--muted); margin-top: 6px; font-size: 1rem; }
+    /* CABECERA con franja de color como en el PDF */
+    .hero {
+      background: linear-gradient(180deg, rgba(20,83,45,.12), rgba(20,83,45,.04));
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 22px 18px;
+      box-shadow: var(--shadow);
+    }
+    .badge {
+      display: inline-block; color: var(--headline); border: 1px solid var(--headline);
+      padding: 3px 10px; border-radius: 999px; font-size: 12px; letter-spacing: .06em; text-transform: uppercase;
+      background: rgba(20,83,45,.06);
+    }
+    h1 {
+      margin: 8px 0 2px; color: var(--headline);
+      font-family: var(--font-heading);
+      font-size: clamp(1.9rem, 3.4vw, 2.5rem);
+      letter-spacing: .2px;
+    }
+    .sub { color: var(--muted); margin: 0 0 8px; }
 
-    .rule { border: 0; height: 1px; background: var(--rule); margin: 18px 0 22px; }
+    .rule { border: 0; height: 1px; background: var(--rule); margin: 16px 0 18px; }
 
-    section { margin: 16px 0 20px; }
-    section h2 { font-size: 1.2rem; margin-bottom: 10px; }
+    /* CONTENIDO */
+    .grid { display: grid; gap: 16px; }
+
+    section { margin-top: 6px; }
+    section h2 {
+      color: var(--headline);
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      margin: 0 0 8px;
+    }
 
     .card {
-      background: var(--card);
+      background: var(--panel);
       border: 1px solid var(--rule);
-      border-radius: 12px;
+      border-radius: var(--radius);
       padding: 14px 16px;
+      box-shadow: var(--shadow);
     }
 
     p { margin: 8px 0; }
-    ul, ol { margin: 8px 0 8px 20px; }
+    ul, ol { margin: 8px 0 8px 22px; }
     li { margin: 6px 0; }
 
-    footer { color: var(--muted); font-size: .95rem; margin-top: 26px; text-align: center; }
+    footer {
+      margin-top: 24px; color: var(--muted); text-align: center; font-size: .95rem;
+    }
 
     .print { display: inline-block; padding: 8px 12px; border: 1px solid var(--rule); border-radius: 10px; background: #fff; cursor: pointer; }
 
+    @media (min-width: 820px) {
+      .grid.two { grid-template-columns: 1fr 1fr; }
+    }
+
     @media print {
       .print { display: none; }
-      .page { padding: 0 0 12mm; }
-      header { margin-top: 8mm; }
-      .rule { margin: 6mm 0; }
+      .page { padding: 0 0 10mm; }
+      .hero { box-shadow: none; }
     }
   </style>
 </head>
 <body>
   <div class="page">
-    <header>
+
+    <header class="hero">
+      <span class="badge">ACHILATA</span>
       <h1>Ungüento de Cannavi Achilata</h1>
-      <div class="sub">Instrucciones, beneficios y recomendaciones</div>
+      <p class="sub">Ungüento de Cannavi y sus beneficios</p>
       <hr class="rule" />
       <button class="print" onclick="window.print()" aria-label="Imprimir">Imprimir</button>
     </header>
 
-    <main id="contenido" aria-live="polite">
+    <main class="grid" aria-live="polite">
       <section>
+        <h2>¿Para qué sirve la crema de Cannavi?</h2>
+        <div class="card">
+          <ul>
+            <li>Propiedades antiinflamatorias: ayuda a reducir la inflamación en músculos y articulaciones.</li>
+            <li>Efecto analgésico: alivia molestias locales sin generar efectos psicoactivos.</li>
+            <li>Hidratación y regeneración: aporta ácidos grasos esenciales que nutren la piel.</li>
+            <li>Cuidado cosmético: mejora la textura, suavidad y elasticidad de la piel.</li>
+            <li>Protección de la piel frente a agentes externos e irritaciones leves.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Modo de uso</h2>
+        <div class="card">
+          <ol>
+            <li>Aplique una pequeña cantidad de la crema sobre la zona deseada (piel limpia y seca).</li>
+            <li>Realice un suave masaje circular hasta su completa absorción.</li>
+            <li>Utilice una o dos veces al día, según necesidad o indicación del fabricante.</li>
+            <li>Evite el contacto con los ojos, mucosas o heridas abiertas.</li>
+            <li>En caso de irritación, suspenda su uso y consulte con un profesional de salud.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section>
+        <h2>Funciones principales</h2>
+        <div class="card">
+          <ul>
+            <li>Propiedades antiinflamatorias.</li>
+            <li>Efecto analgésico local.</li>
+            <li>Hidratación y regeneración cutánea.</li>
+            <li>Cuidado cosmético (textura, suavidad y elasticidad de la piel).</li>
+            <li>Protección frente a agentes externos.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Recomendaciones y precauciones</h2>
+        <div class="card">
+          <ul>
+            <li>Mantener fuera del alcance de los niños y en un lugar fresco y seco.</li>
+            <li>Uso exclusivamente externo. No sustituye tratamientos médicos.</li>
+            <li>Verificar la composición en caso de alergias conocidas.</li>
+            <li>Personas embarazadas, en lactancia o bajo tratamiento médico: consultar con el médico.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Conclusión</h2>
         <div class="card">
           <p>
-            El Ungüento de Cannavi de la marca Achilata es un producto de uso tópico formulado con
-            extractos naturales de <em>Cannabis sativa</em>, especialmente Cannabidiol (CBD). Este componente se ha
-            destacado por sus propiedades calmantes, antiinflamatorias y regeneradoras, lo que la convierte en una
-            excelente opción para el cuidado corporal y el bienestar general.
-          </p>
-          <p>
-            La crema de Cannavi cumple una función calmante y reparadora sobre la piel. Sus principales beneficios incluyen la
-            reducción de molestias musculares y articulares, la hidratación profunda y la protección de la barrera cutánea.
-            Gracias a sus propiedades antiinflamatorias, ayuda a aliviar dolores localizados, tensiones o contracturas leves,
-            brindando una sensación de alivio y bienestar. Además, contribuye a suavizar la piel seca o irritada, favoreciendo su
-            recuperación natural.
+            El Ungüento de Cannavi Achilata representa una alternativa natural para el alivio de molestias musculares y el cuidado de la piel. Su fórmula con extracto de cannabis contribuye al bienestar físico, proporcionando hidratación, frescura y confort sin efectos psicoactivos. Su uso regular puede mejorar la apariencia y salud general de la piel.
           </p>
         </div>
       </section>
 
       <section>
-        <h2>¿Para qué sirve el ungüento?</h2>
-        <ul>
-          <li>Propiedades antiinflamatorias: ayuda a reducir la inflamación en músculos y articulaciones.</li>
-          <li>Efecto analgésico: alivia molestias locales sin generar efectos psicoactivos.</li>
-          <li>Hidratación y regeneración: aporta ácidos grasos esenciales que nutren la piel.</li>
-          <li>Cuidado cosmético: mejora la textura, suavidad y elasticidad de la piel.</li>
-          <li>Protección de la piel frente a agentes externos e irritaciones leves.</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2>Modo de uso</h2>
-        <ol>
-          <li>Aplique una pequeña cantidad de la crema sobre la zona deseada (piel limpia y seca).</li>
-          <li>Realice un suave masaje circular hasta su completa absorción.</li>
-          <li>Utilice una o dos veces al día, según necesidad o indicación del fabricante.</li>
-          <li>Evite el contacto con los ojos, mucosas o heridas abiertas.</li>
-          <li>En caso de irritación, suspenda su uso y consulte con un profesional de salud.</li>
-        </ol>
-      </section>
-
-      <section>
-        <h2>Funciones principales</h2>
-        <ul>
-          <li>Propiedades antiinflamatorias.</li>
-          <li>Efecto analgésico local.</li>
-          <li>Hidratación y regeneración cutánea.</li>
-          <li>Cuidado cosmético (textura, suavidad y elasticidad de la piel).</li>
-          <li>Protección frente a agentes externos.</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2>Recomendaciones y precauciones</h2>
-        <ul>
-          <li>Mantener fuera del alcance de los niños y en un lugar fresco y seco.</li>
-          <li>Uso exclusivamente externo. No sustituye tratamientos médicos.</li>
-          <li>Verificar la composición en caso de alergias conocidas.</li>
-          <li>Personas embarazadas, en lactancia o bajo tratamiento médico: consultar al médico antes de usarla.</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2>Conclusión</h2>
-        <p>
-          La crema de Cannavi Achilata representa una alternativa natural para el alivio de molestias musculares y el cuidado de la piel.
-          Su fórmula con extracto de cannabis contribuye al bienestar físico, proporcionando hidratación, frescura y confort sin efectos
-          secundarios ni componentes psicoactivos. Su uso regular puede mejorar la apariencia y salud general de la piel.
-        </p>
+        <h2>Descripción</h2>
+        <div class="card">
+          <p>
+            El Ungüento de Cannavi de la marca Achilata es un producto de uso tópico formulado con extractos naturales de <em>Cannabis sativa</em>, especialmente Cannabidiol (CBD). Este componente se ha destacado por sus propiedades calmantes, antiinflamatorias y regeneradoras, lo que la convierte en una excelente opción para el cuidado corporal y el bienestar general.
+          </p>
+        </div>
       </section>
     </main>
 
     <footer>
       <hr class="rule" />
-      <p>ACHILATA · Documento informativo</p>
-    </footer>   
+      <p>Documento informativo · ACHILATA</p>
+    </footer>
   </div>
 
   <script>
-    // Si más adelante nos indicás el nombre real de la fuente del PDF o adjuntás el archivo,
-    // activamos el bloque @font-face de arriba y quedará aplicado a todo el sitio.
+    // Si agregás la fuente real en fonts/ y activás @font-face, la página usará la MISMA fuente que el PDF.
+    // Para igualar el fondo 1:1, cambia --bg por el HEX exacto del PDF.
   </script>
 </body>
 </html>
